@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package demo;
+option java_package = "com.baljit.performance.protobuf";
+
+message Submission {
+  string tpzUserName = 1;
+  string tpzPassword = 2;
+  string semester = 3;
+  string courseId = 4;
+  string projectId = 5;
+  string taskId = 6;
+  string tpzKey = 7;
+  string submissionPath = 8;
+  string submissionId = 9;
+  int32 duration = 10;
+  string requestParameters = 11;
+  string tpzSubmissionId = 12;
+  string submissionFile = 13;
+  string codeUrl = 14;
+}
+
+message Submissions {
+  repeated Submission submission = 1;
+}
