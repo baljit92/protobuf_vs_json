@@ -44,13 +44,15 @@ public class ApiController {
         logger.info("Running both: " + increment);
         long protobufTimes = 0;
         long jsonTimes = 0;
-        for (int i = 0; i < 40; i++) {
+//        increment requests to the number of requests to be put on the queue per protocol
+        for (int i = 0; i < increment; i++) {
             protobufTimes += this.getProtobuf();
             jsonTimes += this.getJson();
         }
+//        calculate average time
         long totalProtobuf = protobufTimes / increment;
         long totalJson = jsonTimes / increment;
-        Thread.sleep(80L);
+        Thread.sleep(100L);
         logger.info("It took an average of " + totalProtobuf + "ms to load with protobuf.");
         logger.info("It took an average of " + totalJson + "ms to load with json.");
         logger.info("Both is done!");
