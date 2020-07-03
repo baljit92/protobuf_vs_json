@@ -1,8 +1,10 @@
 package com.baljit.performance;
 
 import com.baljit.performance.json.JsonSubmission;
+import com.baljit.performance.json.JsonSubmissions;
 import com.baljit.performance.protobuf.SubmissionOuterClass.Submission;
 import com.baljit.performance.protobuf.SubmissionOuterClass.Submissions;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.util.JsonFormat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,9 +18,9 @@ import java.util.UUID;
 
 @SpringBootApplication
 public class PerformanceTest {
-	private static final Integer NUM_SUBMISSIONS = 50;
+	private static final Integer DATA_PER_REQUEST = 50;
     private static Submissions submissions;
-    private static StringBuilder jsonSubmissions;
+    private static String jsonSubmissionsString;
 
     @Bean
     ProtobufHttpMessageConverter protobufHttpMessageConverter() {
@@ -27,19 +29,20 @@ public class PerformanceTest {
 
     public static void main(String[] args) throws IOException {
         final List<Submission> submissionList = new ArrayList<>();
-
-        for (int i = 0; i < NUM_SUBMISSIONS; i++) {
+        final List<JsonSubmission> jsonSubmissionsList = new ArrayList<>();
+        for (int i = 0; i < DATA_PER_REQUEST; i++) {
             submissionList.add(generateSubmission(i));
+            jsonSubmissionsList.add(generateJsonSubmission(i));
+
         }
 
         submissions = Submissions.newBuilder()
                 .addAllSubmission(submissionList)
                 .build();
-
-        StringBuilder jsonSubmissionString = new StringBuilder("");
-        JsonFormat.printer().appendTo(getSubmissions(), jsonSubmissionString);
-        // will be converted to bytes when sending to queue
-        jsonSubmissions = jsonSubmissionString;
+        JsonSubmissions jsonSubmissions = new JsonSubmissions();
+        jsonSubmissions.setSubmissions(jsonSubmissionsList);
+        ObjectMapper Obj = new ObjectMapper();
+        jsonSubmissionsString = Obj.writeValueAsString(jsonSubmissions);
 
         SpringApplication.run(PerformanceTest.class, args);
     }
@@ -48,8 +51,8 @@ public class PerformanceTest {
         return submissions;
     }
 
-    public static StringBuilder getJsonSubmissions() {
-        return jsonSubmissions;
+    public static String getJsonSubmissions() {
+        return jsonSubmissionsString;
     }
 
     private static Submission generateSubmission(int i) {
