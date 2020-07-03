@@ -1,4 +1,4 @@
-# Protobuf / JSON comparison
+# Protobuf / JSON protocol comparison
 
 ## Test Sample
 
@@ -37,19 +37,19 @@ Send 100 submissions for 200 times/requests:
 | protobuf |        100      |       244ms       |
 | json     |        100      |       326ms       |
 
-As we can see, for 100 times. protobuf is faster at about 100ms. And at 200 times, protobuf faster at about 82ms.
+As we can see, for 100 times. protobuf is faster at about 100ms. And at 200 times, protobuf protocol is faster at about 82ms.
 
 P.S. All the print statements were removed when recording the time.
 
 ## Setting up
 
 ### Java class
-1. PerformanceTest.java : 
+1. **PerformanceTest.java** : 
   - DATA_PER_REQUEST (Amount of data (# of submissions) to be sent to queue in one request )
-2. QueueListener.java :
+2. **QueueListener.java** :
   - PROTO_QUEUE (Queue for ProtoBuf on Azure Service Bus)
   - JSON_QUEUE (Queue for JSON on Azure Service Bus)
-3. ProtobufEndpoint.java :
+3. **ProtobufEndpoint.java** :
   - PROTO_QUEUE (Queue for ProtoBuf on Azure Service Bus)
   - JSON_QUEUE (Queue for JSON on Azure Service Bus)
 
