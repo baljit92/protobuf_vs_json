@@ -39,6 +39,8 @@ Send 100 submissions for 200 times/requests:
 
 As we can see, for 100 times. protobuf is faster at about 100ms. And at 200 times, protobuf protocol is faster at about 82ms.
 
+With a service bus, performing an operation (send, receive, delete, etc.) takes some time. This time includes the processing of the operation by the Service Bus service in addition to the latency of the request and the response. 
+
 P.S. All the print statements were removed when recording the time.
 
 ## Setting up
